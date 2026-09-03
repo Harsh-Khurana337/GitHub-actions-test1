@@ -1,0 +1,37 @@
+name: Java 26 Build and Test
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Wrapper and Java Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            curl \
+            wget \
+            zlib1g \
+            libfontconfig1 \
+            libfreetype6 \
+            libxext6 \
+            libxrender1 \
+            libxtst6 \
+            libxi6
+
+      - name: Set up Java 26
+        uses: actions/setup-java@v4
+        with:
+          java-version: '26'
+          distribution: 'temurin'
+          cache: 'maven' # Automatically caches your ~/.m2 dependencies to speed up future runs
+
+      - name: Grant Execute Permission to Maven Wrapper
+        run: chmod +x mvnw
+
+      - name: Run Maven Build and Test
+        run: ./mvnw clean test
