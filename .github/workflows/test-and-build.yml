@@ -1,6 +1,7 @@
+## Remember you are running this application on a runner, and this will not run on your local machine.
 name: Java 26 Build and Test
 
-on: push
+on: workflow_dispatch
 
 jobs:
   test:
@@ -21,6 +22,8 @@ jobs:
 
       - name: Run Maven Build and Test
         run: ./mvnw clean test
+
+        ## Remember you are running this application on a runner, and this will not run on your local machine.
 
       - name: Run application in background
         # The '&' runs the process in the background so the workflow can continue
