@@ -22,5 +22,14 @@ jobs:
       - name: Run Maven Build and Test
         run: ./mvnw clean test
 
-      - name: Run the application locally
-        run: timeout 10s ./mvnw spring-boot:run || true
+      - name: Run application in background
+        # The '&' runs the process in the background so the workflow can continue
+        run: java -jar target/your-app-name.jar &
+
+      - name: Wait for port 8080 to be ready
+        # Gives the application a few seconds to start up completely
+        run: sleep 20
+
+      - name: Test local endpoint inside the runner
+        # This tests the server from inside the GitHub cloud environment
+        run: curl -v http://localhost:8080
