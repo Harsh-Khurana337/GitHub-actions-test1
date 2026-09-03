@@ -35,3 +35,6 @@ jobs:
 
       - name: Run Maven Build and Test
         run: ./mvnw clean test
+
+      - name: Run the application locally
+        run: ./mvnw spring-boot:run
