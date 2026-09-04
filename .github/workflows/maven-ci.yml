@@ -37,8 +37,8 @@ jobs:
             cache: 'maven' # Automatically caches your ~/.m2 dependencies to speed up future runs
         - name: Grant Execute Permission to Maven Wrapper
           run: chmod +x mvnw
-        - name: Run Maven Test
-          run: ./mvnw test
+        - name: Build Maven Package
+          run: ./mvnw clean package
         - name: upload artifact
           uses: actions/upload-artifact@v6
           with:
