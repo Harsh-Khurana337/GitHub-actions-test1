@@ -43,7 +43,7 @@ jobs:
             java-version: '26'
             distribution: 'temurin'
             cache: 'maven' # Automatically caches your ~/.m2 dependencies to speed up future runs
-        - name: Grant Execute Permission to Maven Wrapper
+        - name: Grant Execute Permission to Maven Wrapper!
           run: chmod +x mvnw
         - name: Build Maven Package
           run: ./mvnw clean package
