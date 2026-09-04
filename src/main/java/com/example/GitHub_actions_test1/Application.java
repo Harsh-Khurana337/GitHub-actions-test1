@@ -15,7 +15,7 @@ public class Application {
 
     @GetMapping("/health")
     String health() {
-        System.out.println("Health check endpoint called!!");
+        System.out.println("Health check endpoint called");
         return "OK";
     }
 }
