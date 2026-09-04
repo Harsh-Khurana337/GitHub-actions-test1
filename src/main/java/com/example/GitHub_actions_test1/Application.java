@@ -15,6 +15,6 @@ public class Application {
 
     @GetMapping("/health")
     String health() {
-        return "OK";
+        return "OKie";
     }
 }
