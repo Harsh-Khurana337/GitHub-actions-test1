@@ -2,9 +2,10 @@
 name: Java 26 Build and Test
 
 on:
-  pull_request:
+  push:
     branches: [ main ]
-    types: [opened, closed]
+    paths:
+      - '**.java'
 
 jobs:
   test:
