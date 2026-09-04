@@ -46,7 +46,7 @@ jobs:
             path: target/*.jar
 
     deploy:
-      needs: test
+      needs: build
       runs-on: ubuntu-latest
       steps:
         - name: consuming the artifact
