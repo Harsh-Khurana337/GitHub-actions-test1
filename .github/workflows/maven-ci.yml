@@ -17,7 +17,13 @@ jobs:
           with:
             java-version: '26'
             distribution: 'temurin'
-            cache: 'maven' # Automatically caches your ~/.m2 dependencies to speed up future runs
+        - name: 'Maven Cache' # Automatically caches your ~/.m2 dependencies to speed up future runs
+          uses: actions/cache@v5
+          with:
+            path: ~/.m2/repository
+            key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+                ${{ runner.os }}-maven-
         - name: Grant Execute Permission to Maven Wrapper
           run: chmod +x mvnw
         - name: Run Maven Test
