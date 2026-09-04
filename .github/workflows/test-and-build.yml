@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'Application.java'
+      - '**.java'
 
 jobs:
   test:
