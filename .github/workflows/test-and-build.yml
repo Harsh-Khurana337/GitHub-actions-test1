@@ -1,7 +1,10 @@
 ## Remember you are running this application on a runner, and this will not run on your local machine and localhost won't work.
 name: Java 26 Build and Test
 
-on: push
+on:
+  pull_request:
+    branches: [ main ]
+    types: closed
 
 jobs:
   test:
