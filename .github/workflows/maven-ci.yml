@@ -26,6 +26,8 @@ jobs:
     build:
       needs: test
       runs-on: ubuntu-latest
+      outputs:
+        artifact-name: ${{ steps.artifact-name.outputs.artifacts-data }}
       steps:
         - name: Checkout Code
           uses: actions/checkout@v6
@@ -44,6 +46,9 @@ jobs:
           with:
             name: artifacts-data
             path: target/*.jar
+        - name: get the name of the output file
+          id: artifact-name
+          run: find target/*.jar -type f -execdir echo 'artifacts-data={}' >> $GITHUB_OUTPUT \;
 
     deploy:
       needs: build
