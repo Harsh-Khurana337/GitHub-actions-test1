@@ -44,3 +44,14 @@ jobs:
           with:
             name: artifacts-data
             path: target/*.jar
+
+    deploy:
+      needs: test
+      runs-on: ubuntu-latest
+      steps:
+        - name: consuming the artifact
+          uses: actions/download-artifact@v7
+          with:
+            name: artifacts-data
+        - name: list my artifact
+          run: ls -l
