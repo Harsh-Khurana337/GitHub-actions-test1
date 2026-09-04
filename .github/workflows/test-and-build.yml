@@ -24,6 +24,7 @@ jobs:
         run: ./mvnw clean test
 
   build:
+    needs: test
     runs-on: ubuntu-slim
     steps:
       - name: Checkout Code
