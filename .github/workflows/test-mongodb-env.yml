@@ -1,0 +1,66 @@
+name: Test MongoDB connectivity
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+env:
+  MONGODB_DB_NAME: mongodb
+  PORT: 8080
+jobs:
+  test-mongodb:
+    env:
+      MONGODB_CLUSTER: 'cluster0.ofvi4ed.mongodb.net'
+      MONGODB_USERNAME: 'harshkhurana337_db_user'
+      MONGODB_PASSWORD: 'cXdzkacw1PTQPhNl'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Java 26
+        uses: actions/setup-java@v6
+        with:
+          java-version: '26'
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: Dependency Cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+      - name: Grant execute permission to Maven wrapper
+        run: chmod +x mvnw
+
+      - name: Test and build the project
+        run: ./mvnw clean verify --batch-mode
+
+      - name: Run server and wait for it to be ready
+        run: |
+          ./mvnw spring-boot:run & wait on http://127.0.0.1:$PORT
+          sleep 20
+
+      - name: Run only connectivity integration test
+        run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode
+
+      - name: output information
+        run: |
+          echo "MongoDB_username: ${{ env.MONGODB_USERNAME }}"
+          echo "MongoDB_cluster: ${{ env.MONGODB_CLUSTER }}"
+          echo "MongoDB_database: ${{ env.MONGODB_DB_NAME }}"
+
+  deploy:
+    needs: test-mongodb
+    runs-on: ubuntu-latest
+    steps:
+      - name: output information
+        run: |
+          echo "MongoDB_username: ${{ env.MONGODB_USERNAME }}"
+          echo "MongoDB_cluster: ${{ env.MONGODB_CLUSTER }}"
+          echo "MongoDB_database: ${{ env.MONGODB_DB_NAME }}"
+
