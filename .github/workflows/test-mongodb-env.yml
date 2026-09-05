@@ -63,4 +63,3 @@ jobs:
           echo "MongoDB_username: ${{ env.MONGODB_USERNAME }}"
           echo "MongoDB_cluster: ${{ env.MONGODB_CLUSTER }}"
           echo "MongoDB_database: ${{ env.MONGODB_DB_NAME }}"
-
