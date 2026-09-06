@@ -41,8 +41,10 @@ jobs:
 
       - name: Run server and wait for it to be ready
         run: |
-          ./mvnw spring-boot:run & wait on http://127.0.0.1:$PORT
-          sleep 20
+          ./mvnw spring-boot:run > app.log 2>&1 &
+          until curl -fsS http://127.0.0.1:$PORT/health; do
+            sleep 20
+          done
 
       - name: Run only connectivity integration test
         run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode
