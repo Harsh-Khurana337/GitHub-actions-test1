@@ -8,13 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Component
 public class ConnectivityService {
 
-    @Autowired
+    @Autowired(required = false)
     private MongoClient mongoClient;
 
     /**
      * Run a simple ping command against the server to verify connectivity.
      */
     public boolean ping() {
+        if (mongoClient == null) {
+            System.err.println("MongoClient not configured: MONGODB_URI not set.");
+            return false;
+        }
         try {
             Document result = mongoClient.getDatabase("mongodb").runCommand(new Document("ping", 1));
             Object ok = result.get("ok");
