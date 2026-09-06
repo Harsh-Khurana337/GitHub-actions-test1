@@ -17,7 +17,9 @@ public class ConnectivityService {
             return false;
         }
         try {
-            Document result = mongoClient.getDatabase("mongodb").runCommand(new Document("ping", 1));
+            // Use the auth database for ping checks. In Atlas this is typically "admin",
+            // and it avoids failures when the application database name is not present.
+            Document result = mongoClient.getDatabase("admin").runCommand(new Document("ping", 1));
             Object ok = result.get("ok");
             if (ok instanceof Number) {
                 return ((Number) ok).doubleValue() == 1.0;
