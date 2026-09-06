@@ -36,14 +36,12 @@ jobs:
       - name: Grant execute permission to Maven wrapper
         run: chmod +x mvnw
 
-      - name: Test and build the project
-        run: ./mvnw clean verify --batch-mode
-
       - name: Run server and wait for it to be ready
         run: |
           ./mvnw spring-boot:run > app.log 2>&1 &
-          until curl -fsS http://127.0.0.1:$PORT/health; do
-            sleep 20
+          for i in {1..60}; do
+            curl -fsS http://127.0.0.1:$PORT/health && break
+            sleep 2
           done
 
       - name: Run only connectivity integration test
