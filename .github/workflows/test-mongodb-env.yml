@@ -1,12 +1,7 @@
 name: Test MongoDB connectivity
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: workflow_dispatch
+
 env:
   MONGODB_DB_NAME: mongodb
   MONGODB_CLUSTER: cluster0.ofvi4ed.mongodb.net
