@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MongoConfig {
 
-    @Value("${MONGODB_URI:}")
+    @Value("${MONGODB_URI:${spring.data.mongodb.uri:mongodb://localhost:27017}}")
     private String mongoUri;
 
     @Bean
     public MongoClient mongoClient() {
         if (mongoUri == null || mongoUri.isBlank()) {
-            throw new IllegalStateException("MONGODB_URI is not set. Provide it via env or GitHub secret.");
+            mongoUri = "mongodb://localhost:27017";
         }
 
         // Basic validation to catch placeholder hosts like 'host', 'localhost', or 'example'
