@@ -31,7 +31,8 @@ public class MongoConfig {
             if (colon != -1) hostPart = hostPart.substring(0, colon);
             hostPart = hostPart.toLowerCase();
 
-            if ("host".equals(hostPart) || "localhost".equals(hostPart) || hostPart.contains("example") || hostPart.contains("your-cluster")) {
+            boolean isLocalMongo = "localhost".equals(hostPart) || "127.0.0.1".equals(hostPart) || "[::1]".equals(hostPart);
+            if (("host".equals(hostPart) || hostPart.contains("example") || hostPart.contains("your-cluster")) && !isLocalMongo) {
                 throw new IllegalStateException("MONGODB_URI contains a placeholder host '" + hostPart + "'. Replace with your Atlas cluster host (e.g. cluster0.ofvi4ed.mongodb.net) or provide a valid connection string.");
             }
         } catch (IllegalStateException e) {

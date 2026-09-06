@@ -9,13 +9,13 @@ on:
       - main
 env:
   MONGODB_DB_NAME: mongodb
+  MONGODB_CLUSTER: cluster0.ofvi4ed.mongodb.net
+  MONGODB_USERNAME: harshkhurana337_db_user
+  MONGODB_PASSWORD: cXdzkacw1PTQPhNl
+  MONGODB_URI: mongodb+srv://${{ env.MONGODB_USERNAME }}:${{ env.MONGODB_PASSWORD }}@${{ env.MONGODB_CLUSTER }}/${{ env.MONGODB_DB_NAME }}?retryWrites=true&w=majority
   PORT: 8080
 jobs:
   test-mongodb:
-    env:
-      MONGODB_CLUSTER: 'cluster0.ofvi4ed.mongodb.net'
-      MONGODB_USERNAME: 'harshkhurana337_db_user'
-      MONGODB_PASSWORD: 'cXdzkacw1PTQPhNl'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
