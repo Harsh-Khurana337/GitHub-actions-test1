@@ -1,12 +1,12 @@
 name: Test MongoDB connectivity
 
-on: workflow_dispatch
+on: push
 
 env:
   MONGODB_DB_NAME: mongodb
   MONGODB_CLUSTER: cluster0.ofvi4ed.mongodb.net
-  MONGODB_USERNAME: harshkhurana337_db_user
-  MONGODB_PASSWORD: cXdzkacw1PTQPhNl
+  MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+  MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
   PORT: 8080
 
 jobs:
@@ -49,7 +49,7 @@ jobs:
 
       - name: output information
         run: |
-          echo "MongoDB_username: ${{ env.MONGODB_USERNAME }}"
+          echo "MongoDB_username: ${{ secrets.MONGODB_USERNAME }}"
           echo "MongoDB_cluster: ${{ env.MONGODB_CLUSTER }}"
           echo "MongoDB_database: ${{ env.MONGODB_DB_NAME }}"
 
