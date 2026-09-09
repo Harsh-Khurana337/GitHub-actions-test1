@@ -40,7 +40,7 @@ jobs:
         if: always()
         with:
           name: spotbugs-report
-          path: target/spotbugsXml.xml
+          path: target/site/spotbugs.html
 
       - name: Run only connectivity integration test
         run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode
