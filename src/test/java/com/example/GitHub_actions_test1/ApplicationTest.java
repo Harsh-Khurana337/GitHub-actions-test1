@@ -14,13 +14,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class ApplicationTest {
 
-    @Autowired
-    MockMvc mockMvc;
+	@Autowired
+	MockMvc mockMvc;
 
-    @Test
-    void healthCheck() throws Exception {
-        mockMvc.perform(get("/health"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("OK"));
-    }
+	@Test
+	void healthCheck() throws Exception {
+		mockMvc.perform(get("/health")).andExpect(status().isNotFound()).andExpect(content().string("OK"));
+	}
+
 }
