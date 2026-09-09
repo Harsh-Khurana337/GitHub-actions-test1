@@ -33,7 +33,7 @@ jobs:
         run: chmod +x mvnw
 
       - name: Run Maven spotbugs
-        run: ./mvnw clean spotbugs:check
+        run: ./mvnw clean verify -DskipTests
 
       - name: upload spotbugs report
         uses: actions/upload-artifact@v6
@@ -82,4 +82,4 @@ jobs:
             echo "Artifact downloaded successfully."
       - name: output content of the artifact
         run: |
-          ls -l target/
+          ls -l 
