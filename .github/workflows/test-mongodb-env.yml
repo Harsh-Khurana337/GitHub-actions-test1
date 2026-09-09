@@ -2,15 +2,15 @@ name: Test MongoDB connectivity
 
 on: push
 
-env:
-  MONGODB_DB_NAME: mongodb
-  MONGODB_CLUSTER: cluster0.ofvi4ed.mongodb.net
-  MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-  MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
-  PORT: 8080
-
 jobs:
   test-mongodb:
+    environment: Test
+    env:
+      MONGODB_DB_NAME: mongodb
+      MONGODB_CLUSTER: cluster0.ofvi4ed.mongodb.net
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      PORT: 8080
     runs-on: ubuntu-latest
     steps:
       - name: Build MongoDB URI
@@ -49,7 +49,7 @@ jobs:
 
       - name: output information
         run: |
-          echo "MongoDB_username: ${{ secrets.MONGODB_USERNAME }}"
+          echo "MongoDB_username: ${{ env.MONGODB_USERNAME }}"
           echo "MongoDB_cluster: ${{ env.MONGODB_CLUSTER }}"
           echo "MongoDB_database: ${{ env.MONGODB_DB_NAME }}"
 
