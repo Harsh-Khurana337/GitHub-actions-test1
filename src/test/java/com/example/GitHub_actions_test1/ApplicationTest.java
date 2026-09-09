@@ -19,7 +19,7 @@ class ApplicationTest {
 
 	@Test
 	void healthCheck() throws Exception {
-		mockMvc.perform(get("/health")).andExpect(status().isNotFound()).andExpect(content().string("OK"));
+		mockMvc.perform(get("/health")).andExpect(status().isOk()).andExpect(content().string("OKie"));
 	}
 
 }

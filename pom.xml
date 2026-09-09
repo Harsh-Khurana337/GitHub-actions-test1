@@ -83,6 +83,10 @@
 					<effort>Max</effort>
 					<threshold>Medium</threshold>
 					<failOnError>true</failOnError>
+					<xmlOutput>false</xmlOutput>
+					<htmlOutput>true</htmlOutput>
+					<!-- Optional: Specify a custom output file name -->
+					<htmlOutputFile>${project.build.directory}/spotbugs-report.html</htmlOutputFile>
 				</configuration>
 				<executions>
 					<execution>
