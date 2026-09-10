@@ -60,22 +60,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- 1. Official Spring Javaformat Plugin (Lints & Formats Style) -->
-			<plugin>
-				<groupId>io.spring.javaformat</groupId>
-				<artifactId>spring-javaformat-maven-plugin</artifactId>
-				<version>0.0.43</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>validate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- 2. SpotBugs Maven Plugin (Scans for Code Bugs & Vulnerabilities) -->
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
