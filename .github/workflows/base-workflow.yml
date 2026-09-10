@@ -46,24 +46,25 @@ jobs:
         run: chmod +x mvnw
 
       - name: Run Maven spotbugs
+        id: spotbugs-report
         run: ./mvnw clean verify -DskipTests
 
       - name: Run Gitleaks
+        id: gitleaks-report
         uses: gitleaks/gitleaks-action@v2
 
       - name: upload spotbugs report
-        if: always()
+        if: steps.spotbugs-report.outcome == 'failure'
         uses: actions/upload-artifact@v6
         with:
           name: spotbugs-report
           path: target/site/spotbugs.html
 
-      - name: upload gitLeaks report
-        if: always()
+      - name: upload gitleaks report
+        if: steps.gitleaks-report.outcome == 'failure'
         uses: actions/upload-artifact@v6
         with:
           name: gitleaks-report
-          path: target/gitleaks-report.json
 
       - name: Run only connectivity integration test
         run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode
