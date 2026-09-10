@@ -1,13 +1,6 @@
 name: Test and build workflow
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
   test:
@@ -87,7 +80,6 @@ jobs:
         run: chmod +x mvnw
 
       - name: Build Maven Package
-        continue-on-error: true
         run: ./mvnw clean package
 
       - name: upload artifact
