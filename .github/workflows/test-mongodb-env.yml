@@ -1,23 +1,29 @@
 name: Test MongoDB connectivity
 
 on: push
-
 jobs:
   test-mongodb:
     environment: Test
     env:
-      MONGODB_DB_NAME: mongodb
-      MONGODB_CLUSTER: cluster0.ofvi4ed.mongodb.net
-      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
+      MONGODB_CONNECTION_PROTOCOL: mongodb
+      MONGODB_CLUSTER: mongodb
+      MONGODB_USERNAME: root
+      MONGODB_PASSWORD: example
       PORT: 8080
     runs-on: ubuntu-latest
     container:
-      image: mongo:7.0.5
+      image: eclipse-temurin:26-jdk
+    services:
+      mongodb:
+        image: mongo
+        restart: always
+        environment:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
     steps:
       - name: Build MongoDB URI
         run: |
-          echo "MONGODB_URI=mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_CLUSTER}/${MONGODB_DB_NAME}?retryWrites=true&w=majority" >> "$GITHUB_ENV"
+          echo "MONGODB_URI=mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_CLUSTER}/${MONGODB_DB_NAME}?retryWrites=true&w=majority" >> "$GITHUB_ENV"
 
       - name: Checkout code
         uses: actions/checkout@v6
