@@ -6,19 +6,19 @@ jobs:
     environment: Test
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      MONGODB_CLUSTER: mongodb
+      MONGODB_CLUSTER: localhost:27017
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
       PORT: 8080
     runs-on: ubuntu-latest
-    container:
-      image: eclipse-temurin:26-jdk
     services:
       mongodb:
         image: mongo
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
+        ports:
+            - 27017:27017
     steps:
       - name: Build MongoDB URI
         run: |
