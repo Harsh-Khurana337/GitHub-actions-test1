@@ -2,10 +2,11 @@ name: Matrix Example
 on: push
 jobs:
     build:
-        runs-on: ubuntu-latest
         strategy:
           matrix:
-            java-version: [17, 21, 26]
+            java-version: [21, 26]
+            operating-system: [ubuntu-latest, ubuntu-slim]
+        runs-on: ${{ matrix.operating-system }}
         steps:
         - name: Checkout Code
           uses: actions/checkout@v6
