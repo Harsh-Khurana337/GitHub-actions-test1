@@ -30,6 +30,7 @@ jobs:
         run: ./mvnw clean verify -DskipTests
 
       - name: upload spotbugs report
+        if: always()
         uses: actions/upload-artifact@v6
         with:
           name: spotbugs-report
@@ -59,6 +60,7 @@ jobs:
         run: ./mvnw clean package
 
       - name: upload artifact
+        if: always()
         uses: actions/upload-artifact@v6
         with:
           name: artifacts-data
