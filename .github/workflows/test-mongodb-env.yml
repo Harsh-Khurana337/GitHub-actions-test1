@@ -13,7 +13,7 @@ jobs:
       PORT: 8080
     runs-on: ubuntu-latest
     container:
-      image: java:26-jdk
+      image: mongo:7.0.5
     steps:
       - name: Build MongoDB URI
         run: |
