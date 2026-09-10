@@ -8,10 +8,12 @@ jobs:
             operating-system: [ubuntu-latest, ubuntu-slim]
             include:
               - java-version: 17
+                operating-system: ubuntu-latest
             exclude:
               - java-version: 21
                 operating-system: ubuntu-slim
         runs-on: ${{ matrix.operating-system }}
+
         steps:
         - name: Checkout Code
           uses: actions/checkout@v6
