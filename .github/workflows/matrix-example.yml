@@ -6,6 +6,11 @@ jobs:
           matrix:
             java-version: [21, 26]
             operating-system: [ubuntu-latest, ubuntu-slim]
+            include:
+              - java-version: 17
+            exclude:
+              - java-version: 21
+                operating-system: ubuntu-slim
         runs-on: ${{ matrix.operating-system }}
         steps:
         - name: Checkout Code
