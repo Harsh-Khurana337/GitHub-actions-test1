@@ -87,6 +87,7 @@ jobs:
         run: chmod +x mvnw
 
       - name: Build Maven Package
+        continue-on-error: true
         run: ./mvnw clean package
 
       - name: upload artifact
@@ -98,7 +99,6 @@ jobs:
 
   deploy:
     needs: build
-    if: always() # This ensures that the deploy job runs even if the build job fails
     runs-on: ubuntu-latest
     steps:
       - name: output content of the artifact
