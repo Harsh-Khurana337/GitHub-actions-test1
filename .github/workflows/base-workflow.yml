@@ -90,7 +90,4 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: reuse the reusable workflow
-        uses: ./.github/workflows/reuse.yml
+    uses: ./.github/workflows/reuse.yml
