@@ -99,4 +99,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print the output variable from the reusable workflow
-        run: echo "The artifact name is ${{ needs.deploy.outputs.artifact-name.value }}"
+        run: echo "The artifact name is ${{ needs.deploy.outputs.artifact-name }}"

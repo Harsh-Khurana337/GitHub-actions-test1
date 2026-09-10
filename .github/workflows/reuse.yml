@@ -15,7 +15,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     outputs:
-      outcome: ${{ steps.set-output.output.set-output }}
+      outcome: ${{ steps.set-output.outputs.steps-result }}
     steps:
         - name: get artifact
           uses: actions/download-artifact@v7
