@@ -1,8 +1,19 @@
 name: Reusable workflow example
-on: workflow_call
+on:
+  workflow_call:
+   inputs:
+    artifact-name:
+      description: 'The name of the artifact to download'
+      required: false
+      default: dist
+      type: string
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-        - name: output data
-          run: echo "Hello from the resuable workflow"
+        - name: get artifact
+          uses: actions/download-artifact@v7
+          with:
+            name: ${{ inputs.artifact-name }}
+        - name: print artifact
+          run: ls
