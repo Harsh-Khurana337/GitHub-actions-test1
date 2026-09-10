@@ -1,6 +1,6 @@
 name: Test MongoDB connectivity
 
-on: workflow_dispatch
+on: push
 
 jobs:
   test-mongodb:
@@ -12,6 +12,8 @@ jobs:
       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       PORT: 8080
     runs-on: ubuntu-latest
+    container:
+      image: java:26-jdk
     steps:
       - name: Build MongoDB URI
         run: |
