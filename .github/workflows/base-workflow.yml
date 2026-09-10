@@ -26,8 +26,30 @@ jobs:
       - name: Grant Execute Permission to Maven Wrapper
         run: chmod +x mvnw
 
+      - name: Run only connectivity integration test
+        run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode
+
+  TestReports:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Set up Java 26
+        uses: actions/setup-java@v6
+        with:
+          java-version: '26'
+          distribution: 'temurin'
+          cache: 'maven' # Automatically caches your ~/.m2 dependencies to speed up future runs
+
+      - name: Grant Execute Permission to Maven Wrapper
+        run: chmod +x mvnw
+
       - name: Run Maven spotbugs
         run: ./mvnw clean verify -DskipTests
+
+      - name: Secret Scanner
+        uses: secret-scanner/action@0.0.2
 
       - name: upload spotbugs report
         if: always()
@@ -35,6 +57,13 @@ jobs:
         with:
           name: spotbugs-report
           path: target/site/spotbugs.html
+
+      - name: upload secret scanner report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: secret-scanner-report
+          path: target/secret-scanner-report.json
 
       - name: Run only connectivity integration test
         run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode
