@@ -8,8 +8,10 @@ jobs:
             operating-system: [ubuntu-latest, ubuntu-slim]
             include:
               - java-version: 17
+                operating-system: ubuntu-latest
             exclude:
-              - operating-system: ubuntu-slim
+              - java-version: 21
+                operating-system: ubuntu-slim
         runs-on: ${{ matrix.operating-system }}
 
         steps:
