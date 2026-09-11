@@ -10,6 +10,10 @@ jobs:
 
       - name: using custom actions to install dependencies
         uses: ./.github/workflows/actions/installing-caching-deps
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'true'
 
       - name: Grant Execute Permission to Maven Wrapper
         run: chmod +x mvnw
@@ -25,6 +29,10 @@ jobs:
 
       - name: using custom actions to install dependencies
         uses: ./.github/workflows/actions/installing-caching-deps
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'true'
 
       - name: Grant Execute Permission to Maven Wrapper
         run: chmod +x mvnw
@@ -62,6 +70,10 @@ jobs:
 
       - name: using custom actions to install dependencies
         uses: ./.github/workflows/actions/installing-caching-deps
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'true'
 
       - name: Grant Execute Permission to Maven Wrapper!
         run: chmod +x mvnw
