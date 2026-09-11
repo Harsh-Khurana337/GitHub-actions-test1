@@ -1,0 +1,90 @@
+name: custom actions workflow
+
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: using custom actions to install dependencies
+        uses: ./.github/actions/installing-caching-deps
+
+      - name: Grant Execute Permission to Maven Wrapper
+        run: chmod +x mvnw
+
+      - name: Run only connectivity integration test
+        run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode
+
+  TestReports:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: using custom actions to install dependencies
+        uses: ./.github/actions/installing-caching-deps
+
+      - name: Grant Execute Permission to Maven Wrapper
+        run: chmod +x mvnw
+
+      - name: Run Maven spotbugs
+        id: spotbugs-report
+        run: ./mvnw clean verify -DskipTests
+
+      - name: Run Gitleaks
+        id: gitleaks-report
+        uses: gitleaks/gitleaks-action@v2
+
+      - name: upload spotbugs report
+        if: steps.spotbugs-report.outcome == 'failure'
+        uses: actions/upload-artifact@v6
+        with:
+          name: spotbugs-report
+          path: target/site/spotbugs.html
+
+      - name: upload gitleaks report
+        if: steps.gitleaks-report.outcome == 'failure'
+        uses: actions/upload-artifact@v6
+        with:
+          name: gitleaks-report
+
+      - name: Run only connectivity integration test
+        run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: using custom actions to install dependencies
+        uses: ./.github/actions/installing-caching-deps
+
+      - name: Grant Execute Permission to Maven Wrapper!
+        run: chmod +x mvnw
+
+      - name: Build Maven Package
+        run: ./mvnw clean package
+
+      - name: upload artifact
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: artifacts-data
+          path: target/*.jar
+
+  deploy:
+    needs: build
+    uses: ./.github/workflows/reuse.yml
+    with:
+      artifact-name: artifacts-data
+
+  print-output:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the output variable from the reusable workflow
+        run: echo "The artifact name is ${{ needs.deploy.outputs.artifact-name }}"
