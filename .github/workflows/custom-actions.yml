@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: using custom actions to install dependencies
-        uses: ./.github/actions/workflows/installing-caching-deps
+        uses: ./.github/workflows/actions/installing-caching-deps
 
       - name: Grant Execute Permission to Maven Wrapper
         run: chmod +x mvnw
@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: using custom actions to install dependencies
-        uses: ./.github/actions/workflows/installing-caching-deps
+        uses: ./.github/workflows/actions/installing-caching-deps
 
       - name: Grant Execute Permission to Maven Wrapper
         run: chmod +x mvnw
@@ -61,7 +61,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: using custom actions to install dependencies
-        uses: ./.github/actions/workflows/installing-caching-deps
+        uses: ./.github/workflows/actions/installing-caching-deps
 
       - name: Grant Execute Permission to Maven Wrapper!
         run: chmod +x mvnw
