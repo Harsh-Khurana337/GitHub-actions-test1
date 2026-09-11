@@ -11,7 +11,7 @@ jobs:
       - name: using custom actions to install dependencies
         uses: ./.github/workflows/actions/installing-caching-deps
         with:
-          java-version: '21'
+          java-version: '26'
           distribution: 'temurin'
           cache: 'true'
 
@@ -30,7 +30,7 @@ jobs:
       - name: using custom actions to install dependencies
         uses: ./.github/workflows/actions/installing-caching-deps
         with:
-          java-version: '21'
+          java-version: '26'
           distribution: 'temurin'
           cache: 'true'
 
@@ -71,7 +71,7 @@ jobs:
       - name: using custom actions to install dependencies
         uses: ./.github/workflows/actions/installing-caching-deps
         with:
-          java-version: '21'
+          java-version: '26'
           distribution: 'temurin'
           cache: 'true'
 

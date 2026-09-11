@@ -4,7 +4,7 @@ inputs:
   java-version:
     description: 'Java version to set up'
     required: true
-    default: '26'
+    default: '21'
   distribution:
     description: 'Java distribution to use (e.g., temurin, zulu, etc.)'
     required: true
