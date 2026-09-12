@@ -42,17 +42,17 @@ jobs:
 
       - name: Run Gitleaks
         id: gitleaks-report
-        uses: gitleaks/gitleaks-action@v2
+        uses: gitleaks/gitleaks-action@v3
 
       - name: upload spotbugs report
-        if: steps.spotbugs-report.outcome == 'failure'
+        if: always()
         uses: actions/upload-artifact@v6
         with:
           name: spotbugs-report
           path: target/site/spotbugs.html
 
       - name: upload gitleaks report
-        if: steps.gitleaks-report.outcome == 'failure'
+        if: always()
         uses: actions/upload-artifact@v6
         with:
           name: gitleaks-report
