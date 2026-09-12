@@ -1,6 +1,6 @@
 name: custom actions workflow
 
-on: workflow_dispatch
+on: push
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -32,7 +32,6 @@ jobs:
         with:
           java-version: '26'
           distribution: 'temurin'
-          cache: 'true'
 
       - name: Grant Execute Permission to Maven Wrapper
         run: chmod +x mvnw

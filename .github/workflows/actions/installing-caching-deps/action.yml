@@ -11,8 +11,8 @@ inputs:
     default: 'temurin'
   cache:
     description: 'Whether to cache Maven dependencies (true/false)'
-    required: true
-    default: 'true'
+    required: false
+    default: 'false'
 runs:
   using: 'composite'
   steps:
@@ -21,5 +21,13 @@ runs:
       with:
         java-version: ${{ inputs.java-version }}
         distribution: ${{ inputs.distribution }}
-        # If cache input is 'true', pass 'maven' to setup-java, otherwise pass an empty string to disable it
-        cache: ${{ inputs.cache == 'true' && 'maven' || '' }}
+    - name: caching the dependencies
+      if: ${{ inputs.cache == 'true' }}
+      id: cache-deps
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+        shell: bash
