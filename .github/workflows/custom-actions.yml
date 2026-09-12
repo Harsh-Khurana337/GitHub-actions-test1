@@ -9,11 +9,15 @@ jobs:
         uses: actions/checkout@v6
 
       - name: using custom actions to install dependencies
+        id: caching
         uses: ./.github/workflows/actions/installing-caching-deps
         with:
           java-version: '26'
           distribution: 'temurin'
           cache: 'true'
+
+      - name: Check if caching was used
+        run: echo "caching used ${{ steps.caching.outputs.cache-hit }}"
 
       - name: Grant Execute Permission to Maven Wrapper
         run: chmod +x mvnw
@@ -56,6 +60,7 @@ jobs:
         uses: actions/upload-artifact@v6
         with:
           name: gitleaks-report
+          path: target/site/gitleaks.html
 
       - name: Run only connectivity integration test
         run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode

@@ -13,14 +13,19 @@ inputs:
     description: 'Whether to cache Maven dependencies (true/false)'
     required: false
     default: 'false'
+outputs:
+  cache-hit:
+    description: 'Whether the cache was hit or not'
+    value: ${{ steps.cache-deps.outputs.cache-hit }}
 runs:
   using: 'composite'
   steps:
-    - name: Set up Java and Maven Cache
+    - name: Set up Java
       uses: actions/setup-java@v6
       with:
         java-version: ${{ inputs.java-version }}
         distribution: ${{ inputs.distribution }}
+
     - name: caching the dependencies
       if: ${{ inputs.cache == 'true' }}
       id: cache-deps
@@ -30,3 +35,9 @@ runs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
           ${{ runner.os }}-maven-
+
+    - name: Log Cache Status
+      if: ${{ inputs.cache == 'true' }}
+      shell: bash
+      run: |
+        echo "Cache hit: '${{ steps.cache-deps.outputs.cache-hit }}'"
