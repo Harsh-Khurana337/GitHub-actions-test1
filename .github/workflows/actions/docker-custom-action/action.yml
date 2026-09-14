@@ -1,0 +1,12 @@
+name: Docker custom action
+description: A simple docker custom action
+inputs:
+  name:
+    description: 'Name to greet'
+    required: false
+    default: 'World!'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - "${{ inputs.name }}"

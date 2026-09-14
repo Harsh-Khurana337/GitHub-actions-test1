@@ -1,0 +1,13 @@
+name: Docker custom action
+description: This is a workflow for Docker custom action
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v6
+      - name: docker custom action
+        uses: ./.github/workflows/actions/docker-custom-action
+        with:
+          name: "Harsh"

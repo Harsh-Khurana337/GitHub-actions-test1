@@ -1,0 +1,5 @@
+name: js-custom-action
+description: A custom JavaScript action that prints a greeting message.
+runs:
+  using: 'node24'
+  main: main.js

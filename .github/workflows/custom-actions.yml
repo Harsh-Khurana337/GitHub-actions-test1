@@ -1,0 +1,106 @@
+name: custom actions workflow
+
+on: workflow_dispatch
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: using custom actions to install dependencies
+        id: caching
+        uses: ./.github/workflows/actions/installing-caching-deps
+        with:
+          java-version: '26'
+          distribution: 'temurin'
+          cache: 'true'
+
+      - name: Check if caching was used
+        run: echo "caching used ${{ steps.caching.outputs.cache-hit }}"
+
+      - name: Grant Execute Permission to Maven Wrapper
+        run: chmod +x mvnw
+
+      - name: Run only connectivity integration test
+        run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode
+
+  TestReports:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: using custom actions to install dependencies
+        uses: ./.github/workflows/actions/installing-caching-deps
+        with:
+          java-version: '26'
+          distribution: 'temurin'
+
+      - name: Grant Execute Permission to Maven Wrapper
+        run: chmod +x mvnw
+
+      - name: Run Maven spotbugs
+        id: spotbugs-report
+        run: ./mvnw clean verify -DskipTests
+
+      - name: Run Gitleaks
+        id: gitleaks-report
+        uses: gitleaks/gitleaks-action@v3
+
+      - name: upload spotbugs report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: spotbugs-report
+          path: target/site/spotbugs.html
+
+      - name: upload gitleaks report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: gitleaks-report
+          path: results.sarif
+
+      - name: Run only connectivity integration test
+        run: ./mvnw -Dtest=ConnectivityIntegrationTest test --batch-mode
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: using custom actions to install dependencies
+        uses: ./.github/workflows/actions/installing-caching-deps
+        with:
+          java-version: '26'
+          distribution: 'temurin'
+          cache: 'true'
+
+      - name: Grant Execute Permission to Maven Wrapper!
+        run: chmod +x mvnw
+
+      - name: Build Maven Package
+        run: ./mvnw clean package
+
+      - name: upload artifact
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: artifacts-data
+          path: target/*.jar
+
+  deploy:
+    needs: build
+    uses: ./.github/workflows/reuse.yml
+    with:
+      artifact-name: artifacts-data
+
+  print-output:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the output variable from the reusable workflow
+        run: echo "The artifact name is ${{ needs.deploy.outputs.artifact-name }}"
